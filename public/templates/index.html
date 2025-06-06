@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printer Status Checker</title>
+    <style>
+
+    </style>
+    <script src="/script.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="app">
+    <h1>Printer Status Checker</h1>
+
+    <div class="wrapper">
+        <div>
+            <input type="search" class="autocomplete" style="width:300px;" id="printerIpInput"
+                   placeholder="请输入打印机 IP (按回车键输出进度)">
+            <button class="blue-button" id="myButton">查询</button>
+        </div>
+        <div id="result" class="result"></div>
+        <div class="autocomplete">
+            <table id="myTable" class="matching-table">
+                <thead>
+                <tr>
+                    <th>device_id</th>
+                    <th>status</th>
+                    <th>progress</th>
+                    <th>remaining_time</th>
+                    <th>mode</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+</body>
+
+</html>

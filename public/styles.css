@@ -1,0 +1,197 @@
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+
+}
+
+th, td {
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.my-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #cccccc;
+    text-align: center;
+}
+
+.my-table td {
+    padding: 4px;
+    border: 1px solid #000;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font: 16px Arial;
+}
+
+#app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    height: 100vh;
+    width: 100vw;
+}
+
+.left-div,
+.right-div {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0 10px;
+    height: 100vh;
+
+    overflow: auto;
+
+}
+
+.left-div {
+    float: left;
+    background-color: lightblue;
+}
+
+.right-div {
+    float: right;
+    background-color: lightcoral;
+}
+
+.autocomplete {
+    position: relative;
+    display: inline-block;
+    /*width: 200px;*/
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    margin: 5px 10px 5px 10px;
+
+}
+
+input {
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    background-color: #f1f1f1;
+    padding: 5px;
+    font-size: 16px;
+    /*width: 200px; !* 设置一个固定宽度或者合适的百分比宽度 *!*/
+}
+
+input::placeholder {
+    font-size: 11px;
+}
+
+input[type=text] {
+    background-color: #f1f1f1;
+    /*width: 100%;*/
+}
+
+input[type=submit] {
+    background-color: DodgerBlue;
+    color: #fff;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*设置自动填充项宽度与容器相同*/
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+    border-radius: 0 0 4px 4px; /* 给选项添加底部圆角 */
+}
+
+.autocomplete input::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: #666 transparent transparent transparent;
+}
+
+.autocomplete-items div:hover {
+    /*鼠标移动到填充项设置的背景颜色*/
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    /*使用箭头键浏览填充项时的背景颜色*/
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}
+
+.blue-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.blue-button:hover {
+    background-color: #0056b3;
+}
+
+.matching-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #007bff;
+}
+
+.matching-table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.matching-table th,
+.matching-table td {
+    border: 1px solid #007bff;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.matching-table tbody tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+
+.matching-table tbody tr:hover {
+    background-color: #e0ecff;
+}
+
+.result {
+    /*display: flex;*/
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.result progress {
+    border: 1px solid #007bff;
+}
+
+.result::before {
+    color: #007bff;
+    font-size: 14px;
+    margin-bottom: 5px;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printer Status Checker</title>
+</head>
+<body>
+<h1>Printer Status Checker</h1>
+<input type="text" id="printerIpInput" placeholder="请输入打印机 IP（按回车键输出进度）">
+<button onclick="checkPrinter()">查询</button>
+<div id="result"></div>
+<script>
+    async function checkPrinter() {
+        const input = document.getElementById('printerIpInput').value;
+        const resultDiv = document.getElementById('result');
+        if (input === '') {
+            resultDiv.innerHTML = '正在查询所有打印机状态...';
+            try {
+                const printers = {
+                    "A05": "105",
+                    "A06": "109",
+                    "A07": "107",
+                    "A08": "108",
+                    "B01": "151",
+                    "B02": "152",
+                    "B03": "153",
+                    "B04": "179",
+                    "B05": "155",
+                    "B06": "156",
+                    "B07": "157",
+                    "B08": "158",
+                    "B09": "159",
+                    "B10": "174",
+                    "B11": "161",
+                    "B12": "177",
+                    "B13": "175",
+                    "B14": "164",
+                    "B15": "176",
+                    "B16": "182",
+                    "B17": "189",
+                    "B18": "168",
+                    "B19": "169",
+                    "B20": "103",
+                    "B21": "186",
+                };
+                for (const [name, ip] of Object.entries(printers)) {
+                    const printer_info_url = 'http://172.20.22.' + ip + ':5000/get_printer_information/';
+                    const printer_info_response = await axios.get(printer_info_url);
+                    const printerInfoRoot = JSON.parse(printer_info_response.data);
+                    if (printerInfoRoot && printerInfoRoot.device_id) {
+                        const device_id = printerInfoRoot.device_id;
+                        const status_info_url = 'http://172.20.22.' + ip + ':5000/status/' + device_id;
+                        const status_info_response = await axios.get(status_info_url);
+                        const statusInfoRoot = JSON.parse(status_info_response.data);
+                        if (statusInfoRoot) {
+                            const status = statusInfoRoot.status || '';
+                            const progress = statusInfoRoot.progress || '';
+                            const remaining_time = statusInfoRoot.remaining_time? roundToOneDecimalPlace(statusInfoRoot.remaining_time / 60) : '';
+                            const mode = statusInfoRoot.mode || '';
+                            resultDiv.innerHTML += `<p>device_id: ${device_id}, status: ${status}, progress: ${progress}, remaining_time: ${remaining_time} min, mode: ${mode}</p>`;
+                        }
+                    } else {
+                        console.error('device_id is not defined for printer at IP: ', ip);
+                    }
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        } else {
+            resultDiv.innerHTML = '正在查询指定打印机状态...';
+            try {
+                const printer_info_url = 'http://172.20.22.' + input + ':5000/get_printer_information/';
+                const printer_info_response = await axios.get(printer_info_url);
+                const printerInfoRoot = JSON.parse(printer_info_response.data);
+                if (printerInfoRoot && printerInfoRoot.device_id) {
+                    const device_id = printerInfoRoot.device_id;
+                    const status_info_url = 'http://172.20.22.' + input + ':5000/status/' + device_id;
+                    const status_info_response = await axios.get(status_info_url);
+                    const statusInfoRoot = JSON.parse(status_info_response.data);
+                    if (statusInfoRoot) {
+                        const status = statusInfoRoot.status || '';
+                        const progress = statusInfoRoot.progress || '';
+                        const remaining_time = statusInfoRoot.remaining_time? roundToOneDecimalPlace(statusInfoRoot.remaining_time / 60) : '';
+                        const mode = statusInfoRoot.mode || '';
+                        resultDiv.innerHTML = `<p>device_id: ${device_id}, status: ${status}, progress: ${progress}, remaining_time: ${remaining_time} min, mode: ${mode}</p>`;
+                    }
+                } else {
+                    console.error('device_id is not defined for printer at input IP: ', input);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    }
+</script>
+</body>
+</html>
